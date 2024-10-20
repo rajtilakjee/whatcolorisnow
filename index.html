@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Color is Now?</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            transition: background-color 1s ease;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+        }
+
+        h2 {
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <h1>What Color is Now?</h1> <!-- Properly closed h1 tag -->
+    <h2 id="timeDisplay">Loading...</h2> <!-- No <br> needed -->
+
+    <script>
+        function updateBackgroundColor() {
+            // Get current time
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            // Determine AM or PM
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+
+            // Convert 24-hour format to 12-hour format
+            hours = hours % 12;
+            hours = hours ? hours : 12; // If hour is 0, set it to 12 (midnight)
+
+            // Pad the hours with 0 if needed
+            const displayHours = String(hours).padStart(2, '0');
+
+            // Create the hex color from the original 24-hour format (HHMMSS)
+            const hexColor = `#${String(now.getHours()).padStart(2, '0')}${minutes}${seconds}`;
+
+            // Set the background color of the body
+            document.body.style.backgroundColor = hexColor;
+
+            // Update the displayed time with AM/PM and hex color
+            document.getElementById('timeDisplay').innerText = `The time now is: ${displayHours}:${minutes}:${seconds} ${ampm}`;
+        }
+
+        // Call the function every second
+        setInterval(updateBackgroundColor, 1000);
+
+        // Initial call
+        updateBackgroundColor();
+    </script>
+</body>
+</html>
